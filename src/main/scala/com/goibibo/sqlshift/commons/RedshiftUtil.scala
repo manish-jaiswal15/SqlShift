@@ -124,6 +124,7 @@ object RedshiftUtil {
                 val javaTypeMapping = {
                     if (redshiftColumnType == "TIMESTAMP" || redshiftColumnType == "DATE") Some("String")
                     else if (columnType == "TINYINT UNSIGNED") Some("Integer")
+                    else if (columnType == "GEOMETRY") Some("String")
                     else None
                 }
                 validFields = validFields :+ DBField(rsmd.getColumnName(i), redshiftColumnType, javaTypeMapping)
@@ -297,7 +298,8 @@ object RedshiftUtil {
             "TIME" -> RedshiftType("TIMESTAMP"),
             "DATETIME" -> RedshiftType("TIMESTAMP"),
             "TIMESTAMP" -> RedshiftType("TIMESTAMP"),
-            "YEAR" -> RedshiftType("INT")
+            "YEAR" -> RedshiftType("INT"),
+            "GEOMETRY" -> RedshiftType("VARCHAR(255)")
         )
     }
 
