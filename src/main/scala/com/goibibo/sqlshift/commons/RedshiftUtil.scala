@@ -158,7 +158,7 @@ object RedshiftUtil {
                | SELECT $fieldNames FROM $tableNameWithSchema LIMIT 0
             """.stripMargin
         } else if (isSnapshot){
-            val fieldNames = td.validFields.map(r => s"""\t"${r.fieldName}" ${r.fieldType} ENCODE ZSTD """).mkString(",\n")
+            val fieldNames = td.validFields.map(r => s"""\t"${r.fieldName}" ${r.fieldType} ENCODE AZ64 """).mkString(",\n")
             val distributionKey = td.distributionKey match {
                 case None => "DISTSTYLE EVEN"
                 case Some(key) => s"""DISTSTYLE KEY \nDISTKEY ( "$key" ) """
@@ -171,7 +171,7 @@ object RedshiftUtil {
                |$distributionKey
                |$sortKeys ;""".stripMargin
         } else {
-            val fieldNames = td.validFields.map(r => s"""\t"${r.fieldName}" ${r.fieldType} ENCODE ZSTD """).mkString(",\n")
+            val fieldNames = td.validFields.map(r => s"""\t"${r.fieldName}" ${r.fieldType} ENCODE AZ64 """).mkString(",\n")
             val distributionKey = td.distributionKey match {
                 case None => "DISTSTYLE EVEN"
                 case Some(key) => s"""DISTSTYLE KEY \nDISTKEY ( "$key" ) """
